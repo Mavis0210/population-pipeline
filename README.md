@@ -35,7 +35,6 @@ GitHub CSV → Extract → Transform (Python) → Load → PostgreSQL
 
 ### Setup
 1. Clone the repo
-```bash
 git clone https://github.com/Mavis0210/population-pipeline.git
 cd population-pipeline
 
