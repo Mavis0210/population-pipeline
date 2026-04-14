@@ -6,7 +6,6 @@ End-to-end ETL pipeline that extracts world population data, transforms it with 
 ## Pipeline Architecture
 GitHub CSV → Extract → Transform (Python) → Load → PostgreSQL
 
-text
 
 ## Tech Stack
 - **Kestra** — workflow orchestration
