@@ -54,7 +54,7 @@ Navigate to population_pipeline flow
 Click Execute
 Verify data in pgAdmin at http://localhost:8084
 Project Structure
-text
+
 population-pipeline/
 ├── docker-compose.yaml        # All services
 ├── Dockerfile                 # Custom image config
