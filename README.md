@@ -44,19 +44,20 @@ cp .env.example .env
 3. Start services
 docker compose up -d
 
-## Access
+### Access
 | Service | URL |
 |---------|-----|
 | Kestra UI | http://localhost:8082 |
 | pgAdmin | http://localhost:8084 |
 
-## Run Pipeline
+### Run Pipeline
 1. Open Kestra UI at http://localhost:8082
 2. Navigate to population_pipeline flow
 3. Click Execute
 4. Verify data in pgAdmin at http://localhost:8084
 
 ### Project Structure
+```
 population-pipeline/
 ├── docker-compose.yaml        # All services
 ├── Dockerfile                 # Custom image config
@@ -64,3 +65,4 @@ population-pipeline/
 ├── ingest_population.py       # Standalone ingestion script
 ├── requirements.txt           # Python dependencies
 └── README.md
+```
