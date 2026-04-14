@@ -34,27 +34,30 @@ GitHub CSV → Extract → Transform (Python) → Load → PostgreSQL
 - Docker & Docker Compose installed
 
 ### Setup
+1. Clone the repo
 ```bash
-# Clone the repo
 git clone https://github.com/Mavis0210/population-pipeline.git
 cd population-pipeline
 
-# Create .env file
+2. Create your environment file
 cp .env.example .env
 
-# Start services
+3. Start services
 docker compose up -d
-Access
-Service	URL
-Kestra UI	http://localhost:8082
-pgAdmin	http://localhost:8084
-Run Pipeline
-Open Kestra UI at http://localhost:8082
-Navigate to population_pipeline flow
-Click Execute
-Verify data in pgAdmin at http://localhost:8084
-Project Structure
 
+## Access
+| Service | URL |
+|---------|-----|
+| Kestra UI | http://localhost:8082 |
+| pgAdmin | http://localhost:8084 |
+
+## Run Pipeline
+1. Open Kestra UI at http://localhost:8082
+2. Navigate to population_pipeline flow
+3. Click Execute
+4. Verify data in pgAdmin at http://localhost:8084
+
+### Project Structure
 population-pipeline/
 ├── docker-compose.yaml        # All services
 ├── Dockerfile                 # Custom image config
