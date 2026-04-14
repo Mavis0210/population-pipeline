@@ -1,7 +1,7 @@
 # Population Data Pipeline
 
 ## Overview
-End-to-end ETL pipeline that extracts world population data, transforms it with Python, and loads it into PostgreSQL — orchestrated with Kestra and containerised with Docker.
+End-to-end ETL pipeline that extracts world population data, transforms it with Python, and loads it into PostgreSQL, orchestrated with Kestra and containerised with Docker.
 
 ## Pipeline Architecture
 GitHub CSV → Extract → Transform (Python) → Load → PostgreSQL
