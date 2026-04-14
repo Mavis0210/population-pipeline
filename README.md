@@ -8,10 +8,10 @@ GitHub CSV → Extract → Transform (Python) → Load → PostgreSQL
 
 
 ## Tech Stack
-- **Kestra** — workflow orchestration
-- **Python** (Pandas, SQLAlchemy) — data transformation
-- **PostgreSQL** — data storage
-- **Docker & Docker Compose** — containerisation
+- **Kestra** - workflow orchestration
+- **Python** (Pandas, SQLAlchemy) - data transformation
+- **PostgreSQL** - data storage
+- **Docker & Docker Compose** - containerisation
 
 ## Pipeline Tasks
 | Task | Description |
