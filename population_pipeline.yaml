@@ -1,0 +1,77 @@
+id: population_pipeline
+namespace: population
+
+tasks:
+  - id: extract
+    type: io.kestra.plugin.core.http.Download
+    description: Download world population CSV from GitHub
+    uri: https://raw.githubusercontent.com/datasets/population/main/data/population.csv
+
+  - id: transform
+    type: io.kestra.plugin.scripts.python.Script
+    description: Clean and transform the population data
+    containerImage: python:3.13-slim
+    beforeCommands:
+      - pip install pandas sqlalchemy psycopg2-binary -q
+    inputFiles:
+      population.csv: "{{ outputs.extract.uri }}"
+    script: |
+      import pandas as pd
+
+      df = pd.read_csv("population.csv")
+      df.columns = df.columns.str.lower().str.replace(' ', '_')
+      print(f"Columns: {list(df.columns)}")
+
+      rows_before = len(df)
+      df = df.dropna()
+      print(f"Dropped {rows_before - len(df)} rows with missing data")
+
+      df = df.drop_duplicates()
+      print(f"Final row count: {len(df)}")
+
+      df.to_csv("population_clean.csv", index=False)
+      print("Clean file saved!")
+
+    outputFiles:
+      - "population_clean.csv"
+
+  - id: load
+    type: io.kestra.plugin.scripts.python.Script
+    description: Load clean population data into Postgres
+    taskRunner:
+      type: io.kestra.plugin.scripts.runner.docker.Docker
+      networkMode: population_pipeline_default
+    containerImage: python:3.13-slim
+    beforeCommands:
+      - pip install pandas sqlalchemy psycopg2-binary -q
+    inputFiles:
+      population_clean.csv: "{{ outputs.transform.outputFiles['population_clean.csv'] }}"
+    script: |
+      import pandas as pd
+      from sqlalchemy import create_engine
+
+      df = pd.read_csv("population_clean.csv")
+
+      # Note: In production, use environment variables for credentials
+      engine = create_engine(
+          'postgresql+psycopg2://root:root@pgdatabase:5432/population_db'
+      )
+
+      df.to_sql(
+          name='world_population',
+          con=engine,
+          if_exists='replace',
+          index=False
+      )
+
+      count = pd.read_sql("SELECT COUNT(*) FROM world_population", engine).iloc[0, 0]
+      print(f"Done! {count} rows loaded into world_population")
+
+  - id: done
+    type: io.kestra.plugin.core.log.Log
+    message: "Population pipeline completed successfully!"
+
+triggers:
+  - id: schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 9 * * 1"  # Every Monday at 9am

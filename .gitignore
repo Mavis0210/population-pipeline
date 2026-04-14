@@ -1,0 +1,6 @@
+.env
+venv/
+pop_env/
+*.swp
+__pycache__/
+*.pyc
